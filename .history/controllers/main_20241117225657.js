@@ -93,16 +93,13 @@ const themNhanVien = () => {
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Đoạn mã xử lý sự kiện onclick
-    document.getElementById('btnThemNV').onclick = () => {
-        console.log('Đang bấm vào nút thêm nhân viên');
-        const nhanVien = layThongTinNhanVien();
-        if (nhanVien) {
-            console.log("Thông tin nhân viên:", nhanVien);
-            danhSachNhanVien.push(nhanVien);
-            console.log("Danh sách nhân viên:", danhSachNhanVien);
-            themNhanVien();
-        }
-    };
-});
+document.getElementById('btnThemNV').onclick = () => {
+    console.log('Đang bấm vào nút thêm nhân viên');
+    const nhanVien = layThongTinNhanVien();
+    if (nhanVien) {
+        console.log("Thông tin nhân viên:", nhanVien);
+        danhSachNhanVien.push(nhanVien);
+        console.log("Danh sách nhân viên:", danhSachNhanVien);
+        themNhanVien();
+    }
+};

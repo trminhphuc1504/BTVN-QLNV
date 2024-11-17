@@ -9,8 +9,6 @@ const showError = (elementId, message) => {
     if (element) {  // Kiểm tra phần tử có tồn tại không
         element.classList.add("d-block");
         element.innerText = message;
-    }else {
-        console.error(`Không tìm thấy phần tử với id: ${elementId}`);
     }
 };
 
@@ -30,7 +28,7 @@ const layThongTinNhanVien = () => {
     errors.tknv = validator.validationTNNV(tknv);
     errors.name = validator.validateName(name);
     errors.email = validator.validateEmail(email);
-    errors.passWord = validator.validatePassword(passWord);
+    errors.passWord = validator.validatePassword(password);
     errors.datepicker = validator.validateDate(datepicker);
     errors.luongCB = validator.validateLuongCB(luongCB);
     errors.chucvu = validator.validateChucVu(chucvu);
@@ -49,12 +47,13 @@ const layThongTinNhanVien = () => {
     // Hiển thị hoặc ẩn các thông báo lỗi
     for (let error in errors) {
         const errorElement = document.getElementById(`tb${error.charAt(0).toUpperCase() + error.slice(1)}`);
-        console.log(errorElement);  // Kiểm tra xem phần tử có tồn tại không
-        if (errorElement) {
+        if (errors[error]) {
             errorElement.classList.add('sp-thongbao');
             errorElement.style.display = 'inline'; // Hiển thị thông báo lỗi
+        } else {
+            errorElement.classList.remove('sp-thongbao');
+            errorElement.style.display = 'none'; // Ẩn thông báo lỗi
         }
-        
     }
 
     // Kiểm tra nếu có lỗi, không tiếp tục thêm nhân viên
@@ -93,16 +92,12 @@ const themNhanVien = () => {
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Đoạn mã xử lý sự kiện onclick
-    document.getElementById('btnThemNV').onclick = () => {
-        console.log('Đang bấm vào nút thêm nhân viên');
-        const nhanVien = layThongTinNhanVien();
-        if (nhanVien) {
-            console.log("Thông tin nhân viên:", nhanVien);
-            danhSachNhanVien.push(nhanVien);
-            console.log("Danh sách nhân viên:", danhSachNhanVien);
-            themNhanVien();
-        }
-    };
-});
+document.getElementById('btnThemNV').onclick = () => {
+    const nhanVien = layThongTinNhanVien();
+    if (nhanVien) {
+        console.log("Thông tin nhân viên:", nhanVien); // Kiểm tra thông tin nhân viên
+        danhSachNhanVien.push(nhanVien);
+        console.log("Danh sách nhân viên:", danhSachNhanVien); // Kiểm tra danh sách nhân viên
+        themNhanVien();
+    }
+};
