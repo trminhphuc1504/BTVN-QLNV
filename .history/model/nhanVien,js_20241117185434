@@ -1,0 +1,16 @@
+export class nhanVien{
+    constructor(_tknv,_name,_email,_passWord,_ngayLam,_luongCoBan,_chucVu,_gioLamTrongThang,_tongLuong,_loaiNhanVien){
+        this.tknv = _tknv;
+        this.name = _name;
+        this.email = _email;
+        this.passWord = _passWord;
+        this.datepicker = _ngayLam;
+        this.luongCB = _luongCoBan;
+        this.chucvu = _chucVu;
+        this.gioLam = _gioLamTrongThang;
+        this.tongLuong = _tongLuong;
+        this.loaiNhanVien = _loaiNhanVien;
+
+    }
+
+}

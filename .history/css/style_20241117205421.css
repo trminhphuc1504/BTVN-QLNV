@@ -1,0 +1,15 @@
+/* Kiểu dáng cho thông báo lỗi */
+.error {
+    color: red; /* Màu đỏ cho thông báo lỗi */
+    font-size: 12px; /* Kích thước nhỏ hơn */
+    font-style: italic; /* Viết nghiêng */
+  }
+  
+  input.error, select.error {
+    border: 1px solid red; /* Thêm viền đỏ cho các input hoặc select có lỗi */
+  }
+  
+  input.error:focus, select.error:focus {
+    border-color: darkred; /* Đổi màu viền khi đang focus */
+  }
+  
