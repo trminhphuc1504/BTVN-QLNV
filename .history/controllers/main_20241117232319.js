@@ -97,25 +97,7 @@ const saveToLocalStorage = () =>{
     localStorage.setItem('danhSachNhanVien',JSON.stringify(danhSachNhanVien))
 }
 
-const loadFromLocalStorage = () =>{
-    const data = localStorage.getItem('danhSachNhanVien');
-    if(data){
-        danhSachNhanVien = JSON.parse(data).map(item => new nhanVien(
-            item.tknv,
-            item.name,
-            item.email,
-            item.passWord,
-            item.datepicker,
-            item.luongCB,
-            item.chucvu,
-            item.gioLam
-        ));
-    }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-    loadFromLocalStorage();
-    themNhanVien();
     // Đoạn mã xử lý sự kiện onclick
     document.getElementById('btnThemNV').onclick = () => {
         console.log('Đang bấm vào nút thêm nhân viên');
@@ -125,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             danhSachNhanVien.push(nhanVien);
             console.log("Danh sách nhân viên:", danhSachNhanVien);
             themNhanVien();
-            saveToLocalStorage();
         }
     };
 });
