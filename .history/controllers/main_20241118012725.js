@@ -104,6 +104,7 @@ window.deleteNhanVien = (tknv)=>{
     saveToLocalStorage();
 }
 
+let isEditMode =false;
 
 //edit
 window.editNhanVien = (tknv) => {
@@ -118,11 +119,24 @@ window.editNhanVien = (tknv) => {
         document.getElementById('luongCB').value = nhanVienToEdit.luongCB;
         document.getElementById('chucvu').value = nhanVienToEdit.chucvu;
         document.getElementById('gioLam').value = nhanVienToEdit.gioLam;
+
+
+        document.getElementById('btnThemNV').style.display = 'none'; // Ẩn nút thêm
+        document.getElementById('btnCapNhat').style.display = 'inline'; // Hiển thị nút cập nhật
     }
 }
 
 
 
+const toggleButtons = (isEditMode) => {
+    if (isEditMode) {
+        document.getElementById('btnThemNV').style.display = 'none'; // Ẩn nút thêm
+        document.getElementById('btnCapNhat').style.display = 'inline'; // Hiển thị nút cập nhật
+    } else {
+        document.getElementById('btnThemNV').style.display = 'inline'; // Hiển thị nút thêm
+        document.getElementById('btnCapNhat').style.display = 'none'; // Ẩn nút cập nhật
+    }
+};
 
 // Lưu danh sách nhân viên vào LocalStorage 
 const saveToLocalStorage = () => {
@@ -146,40 +160,95 @@ const loadFromLocalStorage = () =>{
     }
 };
 
+const resetForm = () =>{
+    document.getElementById('tknv').value = '';
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('datepicker').value = '';
+    document.getElementById('luongCB').value = '';
+    document.getElementById('chucvu').value = '';
+    document.getElementById('gioLam').value = ''; 
+}
 
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
+//     loadFromLocalStorage();
+//     renderNhanVien();
+
+//     // Khi bấm vào nút "Thêm nhân viên"
+//     document.getElementById('btnThemNV').onclick = () => {
+//         console.log('Đang bấm vào nút thêm nhân viên');
+//         isEditMode = false;
+
+//         // Kiểm tra và thêm nhân viên mới
+//         const nhanVien = layThongTinNhanVien();
+//         if (nhanVien) {
+//             console.log("Thông tin nhân viên:", nhanVien);
+//             nhanVienServiceInstance.addNhanVien(nhanVien); // Sử dụng dịch vụ để thêm nhân viên
+//             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
+//             renderNhanVien();
+//             saveToLocalStorage();
+//             resetForm();
+
+//             toggleButtons(isEditMode);
+//         }
+//     };
+
+//     // Khi bấm vào nút "Cập nhật"
+//     document.getElementById('btnCapNhat').onclick = () => {
+//         console.log('Đang bấm vào nút lưu chỉnh sửa');
+//         const nhanVien = layThongTinNhanVien();
+//         if (nhanVien) {
+//             // Cập nhật nhân viên
+//             nhanVienServiceInstance.editNhanVien(nhanVien);
+//             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
+//             renderNhanVien();
+//             saveToLocalStorage();
+
+//             isEditMode = true;
+
+//             toggleButtons(isEditMode)
+//         }
+//     }
+// });
+
+document.getElementById('btnThemNV').onclick = () => {
+    console.log('Đang bấm vào nút thêm nhân viên');
+    isEditMode = false;  // Đặt lại chế độ không phải chỉnh sửa
+
+    // Reset form trước khi thêm nhân viên mới
+    resetForm();
+
+    // Ẩn nút "Cập nhật" và hiển thị nút "Thêm nhân viên"
+    toggleButtons(isEditMode);
+
+    // Kiểm tra và thêm nhân viên mới
+    const nhanVien = layThongTinNhanVien();
+    if (nhanVien) {
+        console.log("Thông tin nhân viên:", nhanVien);
+        nhanVienServiceInstance.addNhanVien(nhanVien); // Thêm nhân viên mới
+        console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
+        renderNhanVien();
+        saveToLocalStorage();
+    }
+};
 
 
-    // Khi bấm vào nút "Thêm nhân viên"
-    document.getElementById('btnThemNV').onclick = () => {
-        console.log('Đang bấm vào nút thêm nhân viên');
+document.getElementById('btnCapNhat').onclick = () => {
+    console.log('Đang bấm vào nút lưu chỉnh sửa');
+    const nhanVien = layThongTinNhanVien();
+    if (nhanVien) {
+        // Cập nhật thông tin nhân viên
+        nhanVienServiceInstance.editNhanVien(nhanVien);
+        console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
+        renderNhanVien();
+        saveToLocalStorage();
 
-        // Kiểm tra và thêm nhân viên mới
-        const nhanVien = layThongTinNhanVien();
-        if (nhanVien) {
-            console.log("Thông tin nhân viên:", nhanVien);
-            nhanVienServiceInstance.addNhanVien(nhanVien); // Sử dụng dịch vụ để thêm nhân viên
-            console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
-            renderNhanVien();
-            saveToLocalStorage();
-        }
-    };
+        // Đặt lại chế độ "thêm mới" sau khi cập nhật
+        isEditMode = false;
 
-    // Khi bấm vào nút "Cập nhật"
-    document.getElementById('btnCapNhat').onclick = () => {
-        console.log('Đang bấm vào nút lưu chỉnh sửa');
-        const nhanVien = layThongTinNhanVien();
-        if (nhanVien) {
-            // Cập nhật nhân viên
-            nhanVienServiceInstance.editNhanVien(nhanVien);
-            console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
-            renderNhanVien();
-            saveToLocalStorage();
-        }
-    };
-    loadFromLocalStorage();
-    renderNhanVien();
-});
-
-
-
+        // Reset form và hiển thị lại các nút
+        resetForm();
+        toggleButtons(isEditMode);
+    }
+};

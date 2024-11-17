@@ -118,9 +118,12 @@ window.editNhanVien = (tknv) => {
         document.getElementById('luongCB').value = nhanVienToEdit.luongCB;
         document.getElementById('chucvu').value = nhanVienToEdit.chucvu;
         document.getElementById('gioLam').value = nhanVienToEdit.gioLam;
+
+        // Ẩn nút "Thêm nhân viên" và hiển thị nút "Cập nhật"
+        document.getElementById('btnThemNV').style.display = 'none'; // Ẩn nút thêm
+        document.getElementById('btnCapNhat').style.display = 'inline'; // Hiển thị nút cập nhật
     }
 }
-
 
 
 
@@ -146,9 +149,9 @@ const loadFromLocalStorage = () =>{
     }
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
-
+    loadFromLocalStorage();
+    renderNhanVien();
 
     // Khi bấm vào nút "Thêm nhân viên"
     document.getElementById('btnThemNV').onclick = () => {
@@ -162,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
             renderNhanVien();
             saveToLocalStorage();
+            resetForm();
         }
     };
 
@@ -175,11 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
             renderNhanVien();
             saveToLocalStorage();
+            resetForm();
         }
-    };
-    loadFromLocalStorage();
-    renderNhanVien();
+    }
 });
-
-
 

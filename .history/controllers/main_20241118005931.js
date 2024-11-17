@@ -104,11 +104,11 @@ window.deleteNhanVien = (tknv)=>{
     saveToLocalStorage();
 }
 
-
 //edit
-window.editNhanVien = (tknv) => {
+window.editNhanVien = (tknv) =>{
     nhanVienToEdit = nhanVienServiceInstance.danhSachNhanVien.find(item => item.tknv === tknv);
-    if (nhanVienToEdit) {
+    document.getElementById('')
+    if(nhanVienToEdit){
         // Điền thông tin vào form
         document.getElementById('tknv').value = nhanVienToEdit.tknv;
         document.getElementById('name').value = nhanVienToEdit.name;
@@ -118,9 +118,12 @@ window.editNhanVien = (tknv) => {
         document.getElementById('luongCB').value = nhanVienToEdit.luongCB;
         document.getElementById('chucvu').value = nhanVienToEdit.chucvu;
         document.getElementById('gioLam').value = nhanVienToEdit.gioLam;
+
+        // Ẩn nút "Thêm nhân viên" và hiển thị nút "Cập nhật"
+        document.getElementById('btnThemNV').style.display = 'none'// Ẩn nút thêm
+        
     }
 }
-
 
 
 
@@ -146,9 +149,9 @@ const loadFromLocalStorage = () =>{
     }
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
-
+    loadFromLocalStorage();
+    renderNhanVien();
 
     // Khi bấm vào nút "Thêm nhân viên"
     document.getElementById('btnThemNV').onclick = () => {
@@ -176,10 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderNhanVien();
             saveToLocalStorage();
         }
-    };
-    loadFromLocalStorage();
-    renderNhanVien();
+    }
 });
-
-
 

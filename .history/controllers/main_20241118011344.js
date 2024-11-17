@@ -105,6 +105,7 @@ window.deleteNhanVien = (tknv)=>{
 }
 
 
+
 //edit
 window.editNhanVien = (tknv) => {
     nhanVienToEdit = nhanVienServiceInstance.danhSachNhanVien.find(item => item.tknv === tknv);
@@ -120,7 +121,6 @@ window.editNhanVien = (tknv) => {
         document.getElementById('gioLam').value = nhanVienToEdit.gioLam;
     }
 }
-
 
 
 
@@ -146,9 +146,13 @@ const loadFromLocalStorage = () =>{
     }
 };
 
+const resetForm = () =>{
+    
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    loadFromLocalStorage();
+    renderNhanVien();
 
     // Khi bấm vào nút "Thêm nhân viên"
     document.getElementById('btnThemNV').onclick = () => {
@@ -162,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
             renderNhanVien();
             saveToLocalStorage();
+            resetForm();
         }
     };
 
@@ -175,11 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
             renderNhanVien();
             saveToLocalStorage();
+            resetForm();
         }
-    };
-    loadFromLocalStorage();
-    renderNhanVien();
+    }
 });
-
-
 

@@ -5,7 +5,6 @@ import { nhanVienServices } from "../model/nhanVienServices.js";
 const validator = new validation();
 // let danhSachNhanVien = [];
 const nhanVienServiceInstance = new nhanVienServices();
-let nhanVienToEdit = null;// Biến toàn cục để lưu nhân viên cần chỉnh sửa
 
 const showError = (elementId, message) => {
     const element = document.getElementById(elementId);
@@ -87,7 +86,7 @@ const renderNhanVien = () => {
             <td>${item.xepLoai()}</td>
             <td>
                 <div class="button-container">
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="editNhanVien('${item.tknv}')">Edit</button>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="editNhanVien('{${item.tknv}}')">Edit</button>
                     <button class="btn btn-danger" onclick="deleteNhanVien('${item.tknv}')">Delete</button>
                 </div>
             </td>
@@ -97,32 +96,11 @@ const renderNhanVien = () => {
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
 
-//delete
 window.deleteNhanVien = (tknv)=>{
     nhanVienServiceInstance.deleteNhanVien(tknv);
     renderNhanVien()
     saveToLocalStorage();
 }
-
-
-//edit
-window.editNhanVien = (tknv) => {
-    nhanVienToEdit = nhanVienServiceInstance.danhSachNhanVien.find(item => item.tknv === tknv);
-    if (nhanVienToEdit) {
-        // Điền thông tin vào form
-        document.getElementById('tknv').value = nhanVienToEdit.tknv;
-        document.getElementById('name').value = nhanVienToEdit.name;
-        document.getElementById('email').value = nhanVienToEdit.email;
-        document.getElementById('password').value = nhanVienToEdit.passWord;
-        document.getElementById('datepicker').value = nhanVienToEdit.datepicker;
-        document.getElementById('luongCB').value = nhanVienToEdit.luongCB;
-        document.getElementById('chucvu').value = nhanVienToEdit.chucvu;
-        document.getElementById('gioLam').value = nhanVienToEdit.gioLam;
-    }
-}
-
-
-
 
 // Lưu danh sách nhân viên vào LocalStorage 
 const saveToLocalStorage = () => {
@@ -146,15 +124,12 @@ const loadFromLocalStorage = () =>{
     }
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
+    loadFromLocalStorage();
+    renderNhanVien();
 
-
-    // Khi bấm vào nút "Thêm nhân viên"
     document.getElementById('btnThemNV').onclick = () => {
         console.log('Đang bấm vào nút thêm nhân viên');
-
-        // Kiểm tra và thêm nhân viên mới
         const nhanVien = layThongTinNhanVien();
         if (nhanVien) {
             console.log("Thông tin nhân viên:", nhanVien);
@@ -164,22 +139,5 @@ document.addEventListener('DOMContentLoaded', () => {
             saveToLocalStorage();
         }
     };
-
-    // Khi bấm vào nút "Cập nhật"
-    document.getElementById('btnCapNhat').onclick = () => {
-        console.log('Đang bấm vào nút lưu chỉnh sửa');
-        const nhanVien = layThongTinNhanVien();
-        if (nhanVien) {
-            // Cập nhật nhân viên
-            nhanVienServiceInstance.editNhanVien(nhanVien);
-            console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
-            renderNhanVien();
-            saveToLocalStorage();
-        }
-    };
-    loadFromLocalStorage();
-    renderNhanVien();
 });
-
-
 
