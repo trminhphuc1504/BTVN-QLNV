@@ -72,20 +72,6 @@ const layThongTinNhanVien = () => {
     return danhSach;
 }
 
-
-
-//Search NV theo loại
-document.getElementById('searchName').addEventListener('input',()=>{
-    const loai = document.getElementById('searchName').value.trim();// Lấy giá trị từ ô tìm kiếm
-    if(loai){
-        renderNhanVienTheoLoai(loai);// Hiển thị danh sách nhân viên theo loại
-    }
-    else{
-        renderNhanVien();
-    }
-})
-
-//danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
     let htmlContent = '';
@@ -110,38 +96,6 @@ const renderNhanVien = () => {
     });
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
-
-
-
-//danh sach nv hien thi theo loai
-const renderNhanVienTheoLoai = (loai)=>{
-    const danhSachNhanVien = nhanVienServiceInstance.findNhanVienTheoLoai(loai);
-    let htmlContent = '';
-    if(danhSachNhanVien.length > 0){
-        danhSachNhanVien.forEach((item)=>{
-            htmlContent += `
-        <tr>
-            <td>${item.tknv}</td>
-            <td>${item.name}</td>
-            <td>${item.email}</td>
-            <td>${item.datepicker}</td>
-            <td>${item.chucvu}</td>
-            <td>${item.tinhTongLuong()}</td>
-            <td>${item.xepLoai()}</td>
-            <td>
-                <div class="button-container">
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="editNhanVien('${item.tknv}')">Edit</button>
-                    <button class="btn btn-danger" onclick="deleteNhanVien('${item.tknv}')">Delete</button>
-                </div>
-            </td>
-        </tr>
-        `;
-        })
-    }else{
-        htmlContent = `<tr><td colspan="7" class="text-center">Không tìm thấy nhân viên loại "${loai}"</td></tr>`; 
-    }
-    document.getElementById('tableDanhSach').innerHTML = htmlContent;
-}
 
 //delete
 window.deleteNhanVien = (tknv)=>{
@@ -195,7 +149,7 @@ const loadFromLocalStorage = () =>{
 
 document.addEventListener('DOMContentLoaded', () => {
     // Khi bấm vào nút "Thêm nhân viên"
-    document.getElementById('btnThem').onclick = () => {
+    document.getElementById('btnThemNV').onclick = () => {
         console.log('Đang bấm vào nút thêm nhân viên');
 
         // Reset các ô input
@@ -243,6 +197,53 @@ document.addEventListener('DOMContentLoaded', () => {
     renderNhanVien();
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Xử lý khi nhấn nút "Thêm nhân viên"
+    document.getElementById('btnThem').onclick = () => {
+        // Reset các ô input
+        document.getElementById('tknv').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('datepicker').value = '';
+        document.getElementById('luongCB').value = '';
+        document.getElementById('chucvu').value = 'Chọn chức vụ';
+        document.getElementById('gioLam').value = '';
+        
+        // Hiển thị nút "Thêm nhân viên", ẩn nút "Cập nhật"
+        document.getElementById('btnThemNV').style.display = 'block';
+        document.getElementById('btnCapNhat').style.display = 'none';
+    };
+
+    // Xử lý khi nhấn nút "Thêm mới"
+    document.getElementById('btnThemNV').onclick = (event) => {
+        event.preventDefault();
+        const nhanVien = layThongTinNhanVien();
+        if (nhanVien) {
+            nhanVienServiceInstance.addNhanVien(nhanVien);
+            render();
+            saveToLocalStorage();
+            $('#myModal').modal('hide'); // Đóng modal
+        }
+    };
+
+    // Xử lý khi nhấn nút "Cập nhật"
+    document.getElementById('btnCapNhat').onclick = (event) => {
+        event.preventDefault();
+        const nhanVien = layThongTinNhanVien();
+        if (nhanVien) {
+            nhanVienServiceInstance.editNhanVien(nhanVien);
+            render();
+            saveToLocalStorage();
+            $('#myModal').modal('hide'); // Đóng modal
+        }
+    };
+
+    // Load dữ liệu từ LocalStorage khi trang được tải
+    loadFromLocalStorage();
+    render();
+});  
 
 
 

@@ -72,20 +72,6 @@ const layThongTinNhanVien = () => {
     return danhSach;
 }
 
-
-
-//Search NV theo loại
-document.getElementById('searchName').addEventListener('input',()=>{
-    const loai = document.getElementById('searchName').value.trim();// Lấy giá trị từ ô tìm kiếm
-    if(loai){
-        renderNhanVienTheoLoai(loai);// Hiển thị danh sách nhân viên theo loại
-    }
-    else{
-        renderNhanVien();
-    }
-})
-
-//danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
     let htmlContent = '';
@@ -110,38 +96,6 @@ const renderNhanVien = () => {
     });
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
-
-
-
-//danh sach nv hien thi theo loai
-const renderNhanVienTheoLoai = (loai)=>{
-    const danhSachNhanVien = nhanVienServiceInstance.findNhanVienTheoLoai(loai);
-    let htmlContent = '';
-    if(danhSachNhanVien.length > 0){
-        danhSachNhanVien.forEach((item)=>{
-            htmlContent += `
-        <tr>
-            <td>${item.tknv}</td>
-            <td>${item.name}</td>
-            <td>${item.email}</td>
-            <td>${item.datepicker}</td>
-            <td>${item.chucvu}</td>
-            <td>${item.tinhTongLuong()}</td>
-            <td>${item.xepLoai()}</td>
-            <td>
-                <div class="button-container">
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="editNhanVien('${item.tknv}')">Edit</button>
-                    <button class="btn btn-danger" onclick="deleteNhanVien('${item.tknv}')">Delete</button>
-                </div>
-            </td>
-        </tr>
-        `;
-        })
-    }else{
-        htmlContent = `<tr><td colspan="7" class="text-center">Không tìm thấy nhân viên loại "${loai}"</td></tr>`; 
-    }
-    document.getElementById('tableDanhSach').innerHTML = htmlContent;
-}
 
 //delete
 window.deleteNhanVien = (tknv)=>{
@@ -194,8 +148,10 @@ const loadFromLocalStorage = () =>{
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+
     // Khi bấm vào nút "Thêm nhân viên"
-    document.getElementById('btnThem').onclick = () => {
+    document.getElementById('btnThemNV').onclick = () => {
         console.log('Đang bấm vào nút thêm nhân viên');
 
         // Reset các ô input
@@ -211,22 +167,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hiển thị nút "Thêm nhân viên", ẩn nút "Cập nhật"
         document.getElementById('btnThemNV').style.display = 'block';
         document.getElementById('btnCapNhat').style.display = 'none';
-    };
 
-    document.getElementById('btnThemNV').onclick = (event) =>{
-        event.preventDefault();
+
+        
+
+        // Kiểm tra và thêm nhân viên mới
         const nhanVien = layThongTinNhanVien();
-        if(nhanVien){
-            nhanVienServiceInstance.addNhanVien(nhanVien);
+        if (nhanVien) {
+            console.log("Thông tin nhân viên:", nhanVien);
+            nhanVienServiceInstance.addNhanVien(nhanVien); // Sử dụng dịch vụ để thêm nhân viên
+            console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien); // Debug
             renderNhanVien();
             saveToLocalStorage();
-            $('#myModal').modal('hide');// Đóng modal
         }
-    }
+    };
 
     // Khi bấm vào nút "Cập nhật"
-    document.getElementById('btnCapNhat').onclick = (event) => {
-        event.preventDefault();
+    document.getElementById('btnCapNhat').onclick = () => {
         console.log('Đang bấm vào nút lưu chỉnh sửa');
         const nhanVien = layThongTinNhanVien();
         if (nhanVien) {
@@ -235,15 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Danh sách nhân viên:", nhanVienServiceInstance.danhSachNhanVien);
             renderNhanVien();
             saveToLocalStorage();
-            $('#myModal').modal('hide'); // Đóng modal
         }
     };
-    // Load dữ liệu từ LocalStorage khi trang được tải
     loadFromLocalStorage();
     renderNhanVien();
 });
-
-
 
 
 

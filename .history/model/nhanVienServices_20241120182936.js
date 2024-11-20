@@ -24,6 +24,15 @@ export class nhanVienServices{
 
     //Tìm Nhân Viên theo loại (xuất săc, giỏi, khá...) và hiển thị
     findNhanVienTheoLoai(loai){
-        return this.danhSachNhanVien.filter((item)=>item.xepLoai() === loai) //filter se duyet qua tung phan tu trong mang (tuc la tung doi tuong nhanVien) va tra ve mot mang moi chua cac phan tu hoa dieu kien trong ham callback
+        return this.danhSachNhanVien.filter((item)=>item.xepLoai() === loai)
+    }
+
+    //tìm kiếm nhân viên theo tên hoặc tài khoản 
+    findNhanVienTheoTenHoacTaiKhoan(keyword){
+        const lowerKeyword = keyword.toLowerCase();
+        return this.danhSachNhanVien.filter((item)=>{
+            item.tknv.toLowerCase().includes(lowerKeyword) // Tìm theo tài khoản 
+            || item.name.toLowerCase().includes(lowerKeyword);// Tìm theo tên
+        })
     }
 }

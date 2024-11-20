@@ -72,22 +72,8 @@ const layThongTinNhanVien = () => {
     return danhSach;
 }
 
-
-
-//Search NV theo loại
-document.getElementById('searchName').addEventListener('input',()=>{
-    const loai = document.getElementById('searchName').value.trim();// Lấy giá trị từ ô tìm kiếm
-    if(loai){
-        renderNhanVienTheoLoai(loai);// Hiển thị danh sách nhân viên theo loại
-    }
-    else{
-        renderNhanVien();
-    }
-})
-
-//danh sach nv hien thi binh thuong
-const renderNhanVien = () => {
-    const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
+const renderNhanVien = (loai) => {
+    const danhSachNhanVien = nhanVienServiceInstance.findNhanVienTheoLoai(loai);
     let htmlContent = '';
     danhSachNhanVien.forEach((item) => {
         htmlContent += `
@@ -110,38 +96,6 @@ const renderNhanVien = () => {
     });
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 };
-
-
-
-//danh sach nv hien thi theo loai
-const renderNhanVienTheoLoai = (loai)=>{
-    const danhSachNhanVien = nhanVienServiceInstance.findNhanVienTheoLoai(loai);
-    let htmlContent = '';
-    if(danhSachNhanVien.length > 0){
-        danhSachNhanVien.forEach((item)=>{
-            htmlContent += `
-        <tr>
-            <td>${item.tknv}</td>
-            <td>${item.name}</td>
-            <td>${item.email}</td>
-            <td>${item.datepicker}</td>
-            <td>${item.chucvu}</td>
-            <td>${item.tinhTongLuong()}</td>
-            <td>${item.xepLoai()}</td>
-            <td>
-                <div class="button-container">
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="editNhanVien('${item.tknv}')">Edit</button>
-                    <button class="btn btn-danger" onclick="deleteNhanVien('${item.tknv}')">Delete</button>
-                </div>
-            </td>
-        </tr>
-        `;
-        })
-    }else{
-        htmlContent = `<tr><td colspan="7" class="text-center">Không tìm thấy nhân viên loại "${loai}"</td></tr>`; 
-    }
-    document.getElementById('tableDanhSach').innerHTML = htmlContent;
-}
 
 //delete
 window.deleteNhanVien = (tknv)=>{

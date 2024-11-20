@@ -85,6 +85,11 @@ document.getElementById('searchName').addEventListener('input',()=>{
     }
 })
 
+
+
+
+
+
 //danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;

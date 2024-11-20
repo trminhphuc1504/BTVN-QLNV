@@ -85,6 +85,11 @@ document.getElementById('searchName').addEventListener('input',()=>{
     }
 })
 
+
+
+
+
+
 //danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
@@ -138,9 +143,8 @@ const renderNhanVienTheoLoai = (loai)=>{
         `;
         })
     }else{
-        htmlContent = `<tr><td colspan="7" class="text-center">Không tìm thấy nhân viên loại "${loai}"</td></tr>`; 
+        htmlContent = 
     }
-    document.getElementById('tableDanhSach').innerHTML = htmlContent;
 }
 
 //delete

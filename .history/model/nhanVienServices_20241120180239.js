@@ -21,9 +21,4 @@ export class nhanVienServices{
             this.danhSachNhanVien[index] = nhanVien;
         }
     }
-
-    //Tìm Nhân Viên theo loại (xuất săc, giỏi, khá...) và hiển thị
-    findNhanVienTheoLoai(loai){
-        return this.danhSachNhanVien.filter((item)=>item.xepLoai() === loai) //filter se duyet qua tung phan tu trong mang (tuc la tung doi tuong nhanVien) va tra ve mot mang moi chua cac phan tu hoa dieu kien trong ham callback
-    }
 }

@@ -85,6 +85,11 @@ document.getElementById('searchName').addEventListener('input',()=>{
     }
 })
 
+
+
+
+
+
 //danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
@@ -142,6 +147,13 @@ const renderNhanVienTheoLoai = (loai)=>{
     }
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 }
+
+
+//danh sach nv hien thi theo ten hoac tai khoan
+
+
+
+
 
 //delete
 window.deleteNhanVien = (tknv)=>{

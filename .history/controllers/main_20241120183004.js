@@ -85,6 +85,11 @@ document.getElementById('searchName').addEventListener('input',()=>{
     }
 })
 
+
+
+
+
+
 //danh sach nv hien thi binh thuong
 const renderNhanVien = () => {
     const danhSachNhanVien = nhanVienServiceInstance.danhSachNhanVien;
@@ -142,6 +147,34 @@ const renderNhanVienTheoLoai = (loai)=>{
     }
     document.getElementById('tableDanhSach').innerHTML = htmlContent;
 }
+
+
+//danh sach nv hien thi theo ten hoac tai khoan
+const renderNhanVienTheoTenHoacTaiKhoan = (keyword) => {
+    const danhSachNhanVien = nhanVienServiceInstance.findNhanVienTheoTenHoacTaiKhoan(keyword);
+    let htmlContent = '';
+    if (danhSachNhanVien.length > 0) {
+        danhSachNhanVien.forEach((item) => {
+            htmlContent += `
+            <tr>
+                <td>${item.tknv}</td>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                <td>${item.datepicker}</td>
+                <td>${item.chucvu}</td>
+                <td>${item.tinhTongLuong()}</td>
+                <td>${item.xepLoai()}</td>
+            </tr>
+            `;
+        });
+    } else {
+        htmlContent = `<tr><td colspan="7" class="text-center">Không tìm thấy nhân viên với từ khóa "${keyword}"</td></tr>`;
+    }
+    document.getElementById('tableDanhSach').innerHTML = htmlContent;
+};
+
+
+
 
 //delete
 window.deleteNhanVien = (tknv)=>{
